@@ -1,6 +1,7 @@
 package com.treinamento.crudspring.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,17 @@ public class CourseService {
 	
 	public List<Course> findAll(){
 		return repository.findAll();
+	}
+	
+	
+	public Course save(Course course) {
+		return repository.save(course);
+	}
+	
+	public Optional<Course> findById(Long id) {
+		
+		return repository.findById(id);
+		
 	}
 	
 
