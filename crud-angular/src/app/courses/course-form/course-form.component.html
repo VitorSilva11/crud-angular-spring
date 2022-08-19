@@ -22,7 +22,8 @@
     </mat-card-content>
 
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onSubmit()">SAVE</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="!edit">SAVE</button>
+        <button mat-raised-button color="primary" (click)="onEdit()" *ngIf="edit">UPDATE</button>
         <button mat-raised-button (click)="onCancel()">CANCEL</button>
     </mat-card-actions>
 

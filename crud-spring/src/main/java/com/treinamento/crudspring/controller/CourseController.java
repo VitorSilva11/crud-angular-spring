@@ -1,13 +1,15 @@
 package com.treinamento.crudspring.controller;
 
 import java.util.List;
-
-import javax.websocket.server.PathParam;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,10 +35,15 @@ public class CourseController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Course> findById(@PathParam(value = "id") Long id){
+	public ResponseEntity<Object> findById(@PathVariable Long id){
 		
-		return service.findById(id).map(record -> ResponseEntity.ok().body(record))
-									.orElse(ResponseEntity.notFound().build());
+		Optional<Course> CourseModelOptional = service.findById(id);
+		if(!CourseModelOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found");
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(CourseModelOptional.get());
+		
 		
 	}
 	
@@ -46,5 +53,24 @@ public class CourseController {
 		return this.service.save(course);
 	}
 	
+	@PutMapping
+	@ResponseStatus(code = HttpStatus.OK)
+	public Course update(@RequestBody Course course) {
+		
+		return this.service.save(course);
+		
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void remove(@PathVariable Long id) {
+		
+		
+		Optional<Course> optionalCourse = this.service.findById(id);
+		
+		this.service.remove(optionalCourse.get());
+
+		
+	}
 	
 }

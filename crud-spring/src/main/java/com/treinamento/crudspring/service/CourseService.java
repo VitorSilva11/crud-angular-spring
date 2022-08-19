@@ -33,5 +33,9 @@ public class CourseService {
 		
 	}
 	
+	public void remove(Course course) {
+		repository.delete(course);
+	}
+	
 
 }
